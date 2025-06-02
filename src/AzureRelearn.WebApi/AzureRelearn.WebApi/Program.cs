@@ -29,6 +29,8 @@ builder.Services.AddSwaggerGen(c =>
 
 // Build the application
 var app = builder.Build();
+
+// this fix suggested by chatgpt but not added this.
 //app.Urls.Add("http://0.0.0.0:8080"); // Ensure API is accessible inside Docker
 
 // Map Health Check endpoint
