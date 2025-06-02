@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/AzureRelearn.WebApi/.vs/AzureRelearn.WebApi
+/src/AzureRelearn.WebApi/AzureRelearn.WebApi/bin/Debug/net8.0
+/src/AzureRelearn.WebApi/AzureRelearn.WebApi/obj
+/src/AzureRelearn.WebApi/AzureRelearn.WebApi/AzureRelearn.WebApi.csproj.user
