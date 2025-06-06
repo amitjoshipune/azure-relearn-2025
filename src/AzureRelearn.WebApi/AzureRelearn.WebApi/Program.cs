@@ -9,12 +9,33 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Resources;
+
+using OpenTelemetry.Trace;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // App Insights
 builder.Services.AddApplicationInsightsTelemetry();
+
+// **Configure OpenTelemetry**
+builder.Services.AddOpenTelemetry()
+    .WithTracing( traceProviderBuilder =>
+    {
+        object value = traceProviderBuilder
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("AzureRelearn Web API"))
+        .SetSampler(new AlwaysOnSampler()) // Ensures all traces are recorded
+        .AddAspNetCoreInstrumentation() // Required for EF Core instrumentation
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddConsoleExporter()
+        .AddOtlpExporter(opt=>
+        {
+            opt.Endpoint = new Uri("http://localhost:4318");
+        });
+
+    }
+    );
 
 builder.Services.AddDbContext<MySqlDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
