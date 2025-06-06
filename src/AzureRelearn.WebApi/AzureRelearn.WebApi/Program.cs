@@ -1,18 +1,29 @@
+using AzureRelearn.WebApi.Data;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // App Insights
 builder.Services.AddApplicationInsightsTelemetry();
 
+builder.Services.AddDbContext<MySqlDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    );
+
 // Health Checks
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy())
+    .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? "");
 
 // Add Controllers for API functionality
 builder.Services.AddControllers();
@@ -34,7 +45,27 @@ var app = builder.Build();
 //app.Urls.Add("http://0.0.0.0:8080"); // Ensure API is accessible inside Docker
 
 // Map Health Check endpoint
-app.MapHealthChecks("/healthz");
+//app.MapHealthChecks("/healthz"); // this will work but when unhealthy simply returns string. 
+// To get formatted JSON response adding following code
+app.MapHealthChecks("/healthz", new HealthCheckOptions 
+{
+     ResponseWriter = async (context, report) => 
+     {
+         var result =  JsonSerializer.Serialize(new
+         {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select( e => new
+            {
+                name = e.Key,      
+                status = e.Value.Status.ToString(),
+                exception = e.Value.Exception?.Message
+            })
+         })  ;
+         context.Response.ContentType = "application/json";
+         await context.Response.WriteAsync(result);
+     }
+});
+
 
 // Map Controllers to ensure API endpoints work
 app.UseRouting();
