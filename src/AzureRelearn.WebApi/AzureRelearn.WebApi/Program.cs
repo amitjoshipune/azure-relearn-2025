@@ -63,6 +63,7 @@ builder.Services.AddSwaggerGen(c =>
 // Build the application
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<LoggingMiddleware>();
 // this fix suggested by chatgpt but not added this.
 //app.Urls.Add("http://0.0.0.0:8080"); // Ensure API is accessible inside Docker
