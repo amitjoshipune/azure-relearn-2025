@@ -1,6 +1,7 @@
 using AzureRelearn.WebApi.Data;
 using AzureRelearn.WebApi.Filters;
 using AzureRelearn.WebApi.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -11,10 +12,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Resources;
 
 using OpenTelemetry.Trace;
+using System.Text;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +27,7 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 // **Configure OpenTelemetry**
 builder.Services.AddOpenTelemetry()
-    .WithTracing( traceProviderBuilder =>
+    .WithTracing(traceProviderBuilder =>
     {
         object value = traceProviderBuilder
         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("AzureRelearn Web API"))
@@ -32,7 +35,7 @@ builder.Services.AddOpenTelemetry()
         .AddAspNetCoreInstrumentation() // Required for EF Core instrumentation
         .AddEntityFrameworkCoreInstrumentation()
         .AddConsoleExporter()
-        .AddOtlpExporter(opt=>
+        .AddOtlpExporter(opt =>
         {
             opt.Endpoint = new Uri("http://localhost:4318");
         });
@@ -48,6 +51,32 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy())
     .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? "");
+
+// JWT related code -- Start
+// JWT Config
+var jwtKey = "this_is_my_super_secure_key_12345";
+var issuer = "myapi";
+var audience = "myapi-users";
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = issuer,
+        ValidAudience = audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+    };
+});
+// JWT related code -- End
 
 // Add Controllers for API functionality
 builder.Services.AddControllers(
@@ -106,28 +135,54 @@ app.UseMiddleware<LoggingMiddleware>();
 // Map Health Check endpoint
 //app.MapHealthChecks("/healthz"); // this will work but when unhealthy simply returns string. 
 // To get formatted JSON response adding following code
-app.MapHealthChecks("/healthz", new HealthCheckOptions 
+app.MapHealthChecks("/healthz", new HealthCheckOptions
 {
-     ResponseWriter = async (context, report) => 
-     {
-         var result =  JsonSerializer.Serialize(new
-         {
+    ResponseWriter = async (context, report) =>
+    {
+        var result = JsonSerializer.Serialize(new
+        {
             status = report.Status.ToString(),
-            checks = report.Entries.Select( e => new
+            checks = report.Entries.Select(e => new
             {
-                name = e.Key,      
+                name = e.Key,
                 status = e.Value.Status.ToString(),
                 exception = e.Value.Exception?.Message
             })
-         })  ;
-         context.Response.ContentType = "application/json";
-         await context.Response.WriteAsync(result);
-     }
+        });
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(result);
+    }
 });
+
 
 
 // Map Controllers to ensure API endpoints work
 app.UseRouting();
+
+/*
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+*/
+
+/*
+  Why these changes work
+app.MapControllers() handles route registration and automatically injects the needed 
+UseEndpoints(...) middleware behind the scenes 
+
+Explicit removal of UseEndpoints(...) resolves ASP0014.
+
+Correct order of UseRouting() -> UseAuthentication() -> UseAuthorization() -> endpoints ensures authorization is applied properly, resolving ASP0001 
+
+Summary
+Warning	Fix
+ASP0001: "UseAuthorization should appear between routing and endpoints"	Put UseAuthorization() after UseRouting() and before route mapping.
+ASP0014: "Suggest using top-level route registrations instead of UseEndpoints"	Replace app.UseEndpoints(...) with app.MapControllers() and route maps.
+ */
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
