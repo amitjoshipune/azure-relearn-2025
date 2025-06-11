@@ -1,6 +1,7 @@
 using AzureRelearn.WebApi.Data;
 using AzureRelearn.WebApi.Middlewares;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -63,7 +64,33 @@ builder.Services.AddSwaggerGen(c =>
 // Build the application
 var app = builder.Build();
 
+/*
+//  1. Built-in exception handler fallback
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var feature = context.Features.Get<IExceptionHandlerFeature>();
+        if (feature != null)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "application/json";
+
+            await context.Response.WriteAsJsonAsync(new
+            {
+                Message = "Fallback Handler Caught It",
+                Detail = feature.Error.Message
+            });
+        }
+    });
+});
+
+*/
+
+//  2. Custom Middleware
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+
 app.UseMiddleware<LoggingMiddleware>();
 // this fix suggested by chatgpt but not added this.
 //app.Urls.Add("http://0.0.0.0:8080"); // Ensure API is accessible inside Docker
