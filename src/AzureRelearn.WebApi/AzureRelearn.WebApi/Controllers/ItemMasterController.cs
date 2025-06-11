@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,6 +10,7 @@ namespace AzureRelearn.WebApi.Controllers
     public class ItemMasterController : ControllerBase
     {
         // GET: api/<ItemMasterController>
+        [Authorize]
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -23,6 +25,7 @@ namespace AzureRelearn.WebApi.Controllers
         }
 
         // POST api/<ItemMasterController>
+        [Authorize]
         [HttpPost]
         public void Post([FromBody] string value)
         {

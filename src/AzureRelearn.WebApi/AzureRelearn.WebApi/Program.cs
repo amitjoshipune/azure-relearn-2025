@@ -1,6 +1,7 @@
 using AzureRelearn.WebApi.Data;
 using AzureRelearn.WebApi.Filters;
 using AzureRelearn.WebApi.Middlewares;
+using AzureRelearn.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -76,6 +77,9 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
+
+builder.Services.AddSingleton<JwtService>(new JwtService(jwtKey, issuer, audience));
+
 // JWT related code -- End
 
 // Add Controllers for API functionality
