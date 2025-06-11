@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AzureRelearn.WebApi.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AzureRelearn.WebApi.Controllers
 {
@@ -9,6 +10,7 @@ namespace AzureRelearn.WebApi.Controllers
         // 🔹 This action will go through filter before middleware
         [HttpGet("filtered")]
         //[ServiceFilter(typeof(CustomExceptionFilter))]
+        [ServiceFilter(typeof(GlobalExceptionFilter))]
         public IActionResult ThrowWithFilter()
         {
             throw new InvalidOperationException("Thrown inside controller action (Filter used)");

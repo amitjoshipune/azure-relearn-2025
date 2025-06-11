@@ -1,4 +1,5 @@
 using AzureRelearn.WebApi.Data;
+using AzureRelearn.WebApi.Filters;
 using AzureRelearn.WebApi.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -49,7 +50,12 @@ builder.Services.AddHealthChecks()
     .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? "");
 
 // Add Controllers for API functionality
-builder.Services.AddControllers();
+builder.Services.AddControllers(
+    // Register globally if desired
+    // options.Filters.Add<CustomExceptionFilter>();
+    );
+
+builder.Services.AddScoped<GlobalExceptionFilter>();
 
 // Swagger Configuration (Available in all environments)
 builder.Services.AddSwaggerGen(c =>
