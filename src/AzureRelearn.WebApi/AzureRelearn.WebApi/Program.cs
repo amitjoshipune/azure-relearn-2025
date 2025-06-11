@@ -57,6 +57,8 @@ builder.Services.AddControllers(
 
 builder.Services.AddScoped<GlobalExceptionFilter>();
 
+builder.Services.AddLogging();
+
 // Swagger Configuration (Available in all environments)
 builder.Services.AddSwaggerGen(c =>
 {
