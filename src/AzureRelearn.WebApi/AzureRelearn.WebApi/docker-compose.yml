@@ -1,0 +1,14 @@
+services:	
+  azure-relearn-webapi:
+    image: amitjoshipune/azure-relearn-webapi:v1
+    container_name: azure-relearn-webapi-container
+    ports:
+      - "8083:80"
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    restart: always
+
+#PS D:\Amit\azure-relearn-2025\src\AzureRelearn.WebApi\AzureRelearn.WebApi> docker-compose up
+#PS D:\Amit\azure-relearn-2025\src\AzureRelearn.WebApi\AzureRelearn.WebApi> docker-compose -f .\docker-compose.yml up -d
+#PS D:\Amit\azure-relearn-2025\src\AzureRelearn.WebApi\AzureRelearn.WebApi> docker-compose up -d  --build
+#PS D:\Amit\azure-relearn-2025\src\AzureRelearn.WebApi\AzureRelearn.WebApi> docker compose down 
