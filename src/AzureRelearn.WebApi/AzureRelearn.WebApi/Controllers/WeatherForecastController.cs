@@ -26,7 +26,7 @@ namespace AzureRelearn.WebApi.Controllers
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = "Hello from local app " + Summaries[Random.Shared.Next(Summaries.Length)]
+                Summary = "Hello from local computer and not docker - " + Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
         }
