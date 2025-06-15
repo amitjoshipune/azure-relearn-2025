@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-relearn-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-relearn-api
+  template:
+    metadata:
+      labels:
+        app: azure-relearn-api
+    spec:
+      containers:
+      - name: azure-relearn-api
+        image: azure-relearn-api:v1
+        ports:
+        - containerPort: 8080
