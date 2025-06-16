@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JWT Client</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <button onclick="login()">Login</button>
+
+  <h2>Fetch Items (JWT Protected)</h2>
+  <button onclick="getItems()">Get Items</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    let jwt = "";
+
+    function login() {
+      fetch("http://localhost:30081/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: "admin", password: "password" })
+      })
+      .then(res => res.json())
+      .then(data => {
+        jwt = data.token;
+        document.getElementById("output").textContent = "JWT: " + jwt;
+      });
+    }
+
+    function getItems() {
+      fetch("http://localhost:30081/api/ItemMaster", {
+        headers: { Authorization: "Bearer " + jwt }
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+      });
+    }
+  </script>
+</body>
+</html>
