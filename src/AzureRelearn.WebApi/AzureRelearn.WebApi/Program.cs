@@ -82,6 +82,18 @@ builder.Services.AddSingleton<JwtService>(new JwtService(jwtKey, issuer, audienc
 
 // JWT related code -- End
 
+// Enable CORS -
+// Register CORS Policy in builder.Services
+// define policy -- Place it right before builder.Services.AddControllers().
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy => {
+        policy.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 // Add Controllers for API functionality
 builder.Services.AddControllers(
     // Register globally if desired
@@ -162,7 +174,9 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions
 
 // Map Controllers to ensure API endpoints work
 app.UseRouting();
-
+// Use CORS Middleware in Pipeline
+// Right after app.UseRouting();
+app.UseCors("AllowAll");
 /*
 app.UseEndpoints(endpoints =>
 {
