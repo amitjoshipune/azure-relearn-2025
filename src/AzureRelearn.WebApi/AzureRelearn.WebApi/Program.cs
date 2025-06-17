@@ -55,9 +55,9 @@ builder.Services.AddHealthChecks()
 
 // JWT related code -- Start
 // JWT Config
-var jwtKey = "this_is_my_super_secure_key_12345";
-var issuer = "myapi";
-var audience = "myapi-users";
+var jwtKey = builder.Configuration["Jwt:Key"];// "this_is_my_super_secure_key_12345";
+var issuer = builder.Configuration["Jwt:Issuer"];// "myapi";
+var audience = builder.Configuration["Jwt:Audience"];// "myapi-users";
 
 builder.Services.AddAuthentication(options =>
 {
