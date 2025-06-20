@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using TodoRequisition.WebAPI.Data;
+
 namespace TodoRequisition.WebAPI
 {
     public class Program
@@ -8,7 +11,10 @@ namespace TodoRequisition.WebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<TodoDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -17,7 +23,7 @@ namespace TodoRequisition.WebAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction() || app.Environment.IsStaging())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

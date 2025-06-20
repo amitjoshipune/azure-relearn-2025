@@ -7,6 +7,10 @@ namespace TodoRequisition.WebAPI.Data
     public class TodoDbContext : DbContext
     {
         public DbSet<TodoItem> TodoItems { get; set; }
+        public TodoDbContext(DbContextOptions options) :base(options)
+        {
+            
+        }
     }
 
 }
