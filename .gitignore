@@ -9,3 +9,9 @@
 /src/AzureRelearn.WebApi/.vs/ProjectEvaluation
 /src/AzureRelearn.WebApi/Products.WebAPI/bin/Debug/net8.0
 /src/AzureRelearn.WebApi/Products.WebAPI/obj
+/src/AzureRelearn.WebApi/RequisitionProcessor.WebAPI/bin/Debug/net8.0
+/src/AzureRelearn.WebApi/RequisitionProcessor.WebAPI/obj
+/src/AzureRelearn.WebApi/StockEvent.WebAPI/bin/Debug/net8.0
+/src/AzureRelearn.WebApi/StockEvent.WebAPI/obj
+/src/AzureRelearn.WebApi/TodoRequisition.WebAPI/bin/Debug/net8.0
+/src/AzureRelearn.WebApi/TodoRequisition.WebAPI/obj
