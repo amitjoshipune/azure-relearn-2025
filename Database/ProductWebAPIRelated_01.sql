@@ -40,7 +40,7 @@ USE HouseholdTracker;
 SELECT * FROM __EFMigrationsHistory;
 SELECT * FROM Products;
 Select * from Categories
-
+Select * from [dbo].[TodoItems]
 /*
 INSERT INTO Categories ( Name, Description) VALUES
 --(1,'Oils','Cooking & edible oils'),
@@ -86,3 +86,19 @@ INSERT INTO Products (Name, Description, CategoryId) VALUES
 ('Cabbage','',5),
 ('Cheese Cube','',2);
 */
+
+/*
+CREATE DATABASE TodoRequisitionTracker
+go
+
+*/
+
+/*
+Use TodoRequisitionTracker ;
+go 
+*/
+
+/*
+CREATE DATABASE StockEvents
+*/
+
