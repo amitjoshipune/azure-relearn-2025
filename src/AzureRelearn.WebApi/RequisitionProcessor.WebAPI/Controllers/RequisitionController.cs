@@ -8,30 +8,33 @@ namespace RequisitionProcessor.WebAPI.Controllers
     [Route("api/[controller]")]
     public class RequisitionController : ControllerBase
     {
-        private readonly IHttpClientFactory _hc;
-        public RequisitionController(IHttpClientFactory hc) => _hc = hc;
+        private readonly HttpClient _hc;
+        public RequisitionController(IHttpClientFactory factory) => _hc = factory.CreateClient("default");
 
-        [HttpPost("{todoId}/process")]
+        [HttpPost("{todoId:int}/process")]
         public async Task<IActionResult> Process(int todoId)
         {
-            var hc = _hc.CreateClient();
-            var todo = await hc.GetFromJsonAsync<TodoDto>($"http://todo/api/todo/{todoId}");
-            if (todo == null) return NotFound();
+            var todoResp = await _hc.GetAsync($"http://todo/api/todo/{todoId}");
+            if (!todoResp.IsSuccessStatusCode) return StatusCode((int)todoResp.StatusCode);
 
-            if (todo.ProductId.HasValue)
+            var todo = await todoResp.Content.ReadFromJsonAsync<TodoDto>();
+            if (todo?.ProductId != null)
             {
-                await hc.PostAsJsonAsync("http://stock/api/stock", new StockEventDto
+                var stockResp = await _hc.PostAsJsonAsync("http://stock/api/stock", new StockEventDto
                 {
                     ProductId = todo.ProductId.Value,
                     EventType = StockEventType.Bought,
                     Quantity = 1
                 });
+
+                if (!stockResp.IsSuccessStatusCode)
+                    return StatusCode((int)stockResp.StatusCode);
             }
 
-            await hc.PatchAsync($"http://todo/api/todo/{todoId}/status",
-                JsonContent.Create(new { status = TodoStatus.Done }));
+            var patchResp = await _hc.PatchAsync($"http://todo/api/todo/{todoId}/status",
+              JsonContent.Create(new { status = TodoStatus.Done }));
 
-            return Ok();
+            return patchResp.IsSuccessStatusCode ? Ok() : StatusCode((int)patchResp.StatusCode);
         }
     }
 
