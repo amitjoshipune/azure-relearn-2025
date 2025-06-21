@@ -12,8 +12,8 @@ using TodoRequisition.WebAPI.Data;
 namespace TodoRequisition.WebAPI.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20250621061318_newdb")]
-    partial class newdb
+    [Migration("20250621100515_InitialCreate21062025")]
+    partial class InitialCreate21062025
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

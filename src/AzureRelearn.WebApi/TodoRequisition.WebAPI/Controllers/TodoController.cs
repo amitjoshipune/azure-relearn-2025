@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using TodoRequisition.WebAPI.Data;
+using TodoRequisition.WebAPI.DTOs;
 using TodoRequisition.WebAPI.Models;
 
 namespace TodoRequisition.WebAPI.Controllers
@@ -21,6 +22,7 @@ namespace TodoRequisition.WebAPI.Controllers
           => await _db.TodoItems.FindAsync(id) is var t && t != null
                ? Ok(t) : NotFound();
 
+        /*
         [HttpPost]
         public async Task<IActionResult> Create(TodoItem dto)
         {
@@ -28,6 +30,28 @@ namespace TodoRequisition.WebAPI.Controllers
             await _db.SaveChangesAsync();
             return CreatedAtAction(nameof(Get), new { dto.Id }, dto);
         }
+        */
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] TodoCreateDto dto)
+        {
+            if (!Enum.TryParse<TodoStatus>(dto.Status, true, out var parsedStatus))
+                return BadRequest("Invalid status value");
+
+            var entity = new TodoItem
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                ProductId = dto.ProductId,
+                Status = parsedStatus
+            };
+
+            _db.TodoItems.Add(entity);
+            await _db.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = entity.Id }, entity);
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, TodoItem dto)

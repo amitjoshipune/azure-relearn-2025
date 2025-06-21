@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Products.WebAPI\\Products.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "TodoRequisition.WebAPI\\TodoRequisition.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "StockEvent.WebAPI\\StockEvent.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "RequisitionProcessor.WebAPI\\RequisitionProcessor.WebAPI.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

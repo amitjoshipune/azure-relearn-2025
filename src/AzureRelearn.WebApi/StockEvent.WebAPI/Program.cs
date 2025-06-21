@@ -32,7 +32,7 @@ namespace StockEvent.WebAPI
 
 
             app.UseHttpsRedirection();
-            app.UseRouting();////added suggested by Chatgpt
+            //app.UseRouting();////added suggested by Chatgpt
 
             app.UseAuthorization();
 

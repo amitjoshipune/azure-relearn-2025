@@ -22,6 +22,7 @@ namespace StockEvent.WebAPI.Controllers
             return await _ctx.StockEventItems.FindAsync(id) is StockEventItem evt ? Ok(evt) : NotFound();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Post(StockEventDto dto)
         {
             var e = new StockEventItem
