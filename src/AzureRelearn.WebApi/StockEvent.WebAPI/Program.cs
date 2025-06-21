@@ -30,10 +30,11 @@ namespace StockEvent.WebAPI
                 app.UseSwaggerUI();
             }
 
+
             app.UseHttpsRedirection();
+            app.UseRouting();////added suggested by Chatgpt
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

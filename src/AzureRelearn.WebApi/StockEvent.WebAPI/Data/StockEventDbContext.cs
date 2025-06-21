@@ -9,6 +9,6 @@ namespace StockEvent.WebAPI.Data
         {
             
         }
-        public DbSet<StockEventItem> StockEventItems { get; set; }
+        public DbSet<StockEventItem> StockEventItems { get; set; } = null!;
     }
 }
