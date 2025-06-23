@@ -41,6 +41,7 @@ SELECT * FROM __EFMigrationsHistory;
 SELECT * FROM Products;
 Select * from Categories
 Select * from [dbo].[TodoItems]
+Select * from [dbo].[StockEventItems]
 /*
 INSERT INTO Categories ( Name, Description) VALUES
 --(1,'Oils','Cooking & edible oils'),
@@ -102,3 +103,5 @@ go
 CREATE DATABASE StockEvents
 */
 
+USE StockEvents;
+go
