@@ -3,6 +3,10 @@
     "Name": "New Profile",
     "Projects": [
       {
+        "Path": "AzureRelearn.WebApi\\AzureRelearn.WebApi.csproj",
+        "Action": "Start"
+      },
+      {
         "Path": "Products.WebAPI\\Products.WebAPI.csproj",
         "Action": "Start"
       },
