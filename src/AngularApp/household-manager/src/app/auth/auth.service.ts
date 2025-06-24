@@ -1,31 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  base = environment.api.auth;
+  constructor(private http: HttpClient, private router: Router) {}
 
-  login(username: string, password: string) {
-    return this.http.post<{ token: string }>(
-      `${environment.api.auth}/login`, { username, password }
-    ).pipe(tap(r => localStorage.setItem(environment.tokenKey, r.token)));
+  login(username: string, password: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.base}/auth/login`, { username, password }).pipe(
+      tap(res => {
+        localStorage.setItem('jwt', res.token);
+        const returnUrl = this.router.routerState.snapshot.root.queryParams['returnUrl'] || '/dashboard';
+        this.router.navigateByUrl(returnUrl);
+      })
+    );
   }
 
-  register(user: any) {
-    return this.http.post(`${environment.api.auth}/register`, user);
+  register(username: string, password: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>('/api/auth/register', { username, password }).pipe(
+      tap(() => {
+        this.router.navigate(['/login']); // Optional: auto-login instead
+      })
+    );
   }
 
   logout() {
-    localStorage.removeItem(environment.tokenKey);
+    localStorage.removeItem('jwt');
+    this.router.navigate(['/login']);
   }
 
-  get token() {
-    return localStorage.getItem(environment.tokenKey);
-  }
-
-  get isLoggedIn(): boolean {
-    return !!this.token;
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('jwt');
   }
 }

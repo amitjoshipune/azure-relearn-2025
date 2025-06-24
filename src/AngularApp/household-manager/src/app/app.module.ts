@@ -19,13 +19,7 @@ import { AuthGuard } from './auth/auth.guard';
     // Don't add HomeComponent here
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule,
-    AppRoutingModule,
-    AuthModule,
-    DashboardModule // Needed for <router-outlet> to work
+    BrowserModule, FormsModule, HttpClientModule, RouterModule, AppRoutingModule, AuthModule, DashboardModule // Needed for <router-outlet> to work
   ],
   providers: [
     AuthGuard,

@@ -13,11 +13,12 @@ import { AuthService } from '../auth.service';
   </form>`
 })
 export class LoginComponent {
-  username = '';
-  password = '';
-  constructor(private auth: AuthService, private router: Router) {}
-  login() {
-    this.auth.login(this.username, this.password)
-      .subscribe(() => this.router.navigate(['/']));
+  username=''; password=''; errorMsg = '';
+  constructor(private auth: AuthService, private router: Router){}
+  login(){
+   this.auth.login(this.username, this.password).subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: () => this.errorMsg = 'Invalid login. Try again.'
+    });
   }
 }
