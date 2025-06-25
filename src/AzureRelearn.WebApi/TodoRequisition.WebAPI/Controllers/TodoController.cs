@@ -12,7 +12,7 @@ public class TodoController : ControllerBase
     private readonly TodoDbContext _db;
     public TodoController(TodoDbContext db) => _db = db;
 
-    [HttpGet]
+    [HttpGet("allwithoutpaging", Name = "GetAllWithoutPaging")]
     public async Task<IActionResult> GetAll()
     {
         var todos = await _db.TodoItems.ToListAsync();
@@ -27,6 +27,38 @@ public class TodoController : ControllerBase
         });
         return Ok(result);
     }
+
+    [HttpGet("all",Name ="GetAllWithPaging")]
+    public async Task<IActionResult> GetAll([FromQuery] TodoQueryParams q)
+    {
+        var build = _db.TodoItems.AsQueryable();
+
+        // filters
+        if (q.From.HasValue)
+            build = build.Where(t => t.CreatedAtUtc >= q.From.Value);
+        if (q.To.HasValue)
+            build = build.Where(t => t.CreatedAtUtc <= q.To.Value);
+
+        // ordered and paged
+        var total = await build.CountAsync();
+        var items = await build
+          .OrderByDescending(t => t.CreatedAtUtc)
+          .Skip((q.Page - 1) * q.PageSize)
+          .Take(q.PageSize)
+          .Select(t => new TodoResponseDto
+          {
+              Id = t.Id,
+              Title = t.Title,
+              Description = t.Description,
+              Status = t.Status.ToString(),
+              ProductId = t.ProductId,
+              CreatedAtUtc = t.CreatedAtUtc
+          })
+          .ToListAsync();
+
+        return Ok(new { total, items });
+    }
+
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
