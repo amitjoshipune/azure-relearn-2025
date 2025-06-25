@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,7 @@ import { ProductAddComponent } from './pages/products/product-add/product-add.co
 import { ProductEditComponent } from './pages/products/product-edit/product-edit.component';
 import { ProductListComponent } from './pages/products/product-list/product-list.component';
 import { LoginComponent } from './components/login/login.component';
+import { TodoListComponent } from './pages/todos/todo-list/todo-list.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -19,13 +21,15 @@ import { LoginComponent } from './components/login/login.component';
     ProductListComponent,
   ProductAddComponent,
   ProductEditComponent,
-    LoginComponent
+    LoginComponent,
+    TodoListComponent
 ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxPaginationModule
   ],
   providers: [
     {

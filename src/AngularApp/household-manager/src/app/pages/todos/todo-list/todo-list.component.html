@@ -1,0 +1,32 @@
+<h2>TODO List</h2>
+
+<p>
+  <label>From: <input type="date" [(ngModel)]="filterFrom"></label>
+  <label>To:   <input type="date" [(ngModel)]="filterTo"></label>
+  <button (click)="load()">Filter</button>
+  <button (click)="page=1; load()">Reset</button>
+</p>
+
+<table border="1" width="100%">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Product</th>
+    <th>Status</th>
+    <th>Created At</th>
+    <th>Action</th>
+  </tr>
+
+  <tr *ngFor="let t of todos | paginate: { itemsPerPage: pageSize, currentPage: page }">
+    <td>{{ t.title }}</td>
+    <td>{{ t.description }}</td>
+    <td>{{ findProductName(t.productId) }}</td>
+    <td>{{ t.status }}</td>
+    <td>{{ t.createdAtUtc | date: 'yyyy-MM-dd HH:mm' }}</td>
+    <td><button (click)="delete(t.id!)">Delete</button></td>
+  </tr>
+</table>
+
+<pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+<button [routerLink]="['/todos/add']">Add TODO</button>
