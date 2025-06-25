@@ -12,9 +12,9 @@
       <td>{{ p.description }}</td>
       <td>
         <!-- <button (click)="router.navigate(['/products/edit', p.id])">Edit</button> -->
-         <button (click)="navigateToEdit(p.id)">Edit</button>
+         <button (click)="navigateToEdit(p.id!)">Edit</button>
 
-        <button (click)="deleteProduct(p.id)">Delete</button>
+        <button (click)="deleteProduct(p.id!)">Delete</button>
       </td>
     </tr>
   </tbody>

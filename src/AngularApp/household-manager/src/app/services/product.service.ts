@@ -22,7 +22,11 @@ export class ProductService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/All`);
+    const max = 10000; // ~9e15
+    //return this.http.get(`${this.apiUrl}/All/`);
+      return this.http.get<{ total: number; items: Product[] }>(
+    `${this.apiUrl}/all?page=1&pageSize=${max}`
+  );
   }
 
   getById(id: number): Observable<Product> {
@@ -30,11 +34,11 @@ export class ProductService {
   }
 
   create(product: Product): Observable<any> {
-    return this.http.post(this.apiUrl, { ...product, category: { id: 20 } });
+    return this.http.post(this.apiUrl, { ...product, category: { id: 4 } });
   }
 
   update(product: Product): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${product.id}`, { ...product, category: { id: 20 } });
+    return this.http.put(`${this.apiUrl}/${product.id}`, { ...product, category: { id: 4 } });
   }
 
   delete(id: number): Observable<any> {

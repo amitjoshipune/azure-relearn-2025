@@ -1,1 +1,6 @@
-<p>product-add works!</p>
+<h2>Add Product</h2>
+<form (ngSubmit)="save()">
+  <label>Name: <input [(ngModel)]="product.name" name="name" required /></label><br/>
+  <label>Description: <input [(ngModel)]="product.description" name="desc" /></label><br/>
+  <button type="submit">Save</button>
+</form>
