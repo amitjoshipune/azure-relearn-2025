@@ -1,0 +1,21 @@
+<h2>Product List</h2>
+<!-- <button (click)="router.navigate(['/products/add'])">Add Product</button> -->
+<button (click)="navigateToAdd()">Add Product</button>
+<table border="1" cellpadding="5" cellspacing="0">
+  <thead>
+    <tr><th>ID</th><th>Name</th><th>Description</th><th>Actions</th></tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of products">
+      <td>{{ p.id }}</td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.description }}</td>
+      <td>
+        <!-- <button (click)="router.navigate(['/products/edit', p.id])">Edit</button> -->
+         <button (click)="navigateToEdit(p.id)">Edit</button>
+
+        <button (click)="deleteProduct(p.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
