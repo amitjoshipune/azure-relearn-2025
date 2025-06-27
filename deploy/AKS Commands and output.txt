@@ -1,0 +1,278 @@
+
+C:\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.9>az aks create --resource-group aks-cluster-rg --name todoapp-aks-cluster --node-count 1 --node-vm-size Standard_B2s --enable-addons monitoring --generate-ssh-keys
+
+O/P --
+
+The default value of '--node-vm-size' will be changed to 'Dynamically Selected By Azure' from 'Standard_DS2_V2 (Linux), Standard_DS2_V3 (Windows)' in next breaking change release(2.73.0) scheduled for May 2025.
+{
+  "aadProfile": null,
+  "addonProfiles": {
+    "omsagent": {
+      "config": {
+        "logAnalyticsWorkspaceResourceID": "/subscriptions/4bbd422d-0cc0-45cc-8151-2193eb805c0c/resourceGroups/DefaultResourceGroup-EUS/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-4bbd422d-0cc0-45cc-8151-2193eb805c0c-EUS",
+        "useAADAuth": "true"
+      },
+      "enabled": true,
+      "identity": null
+    }
+  },
+  "agentPoolProfiles": [
+    {
+      "availabilityZones": null,
+      "capacityReservationGroupId": null,
+      "count": 1,
+      "creationData": null,
+      "currentOrchestratorVersion": "1.31.9",
+      "eTag": null,
+      "enableAutoScaling": false,
+      "enableEncryptionAtHost": false,
+      "enableFips": false,
+      "enableNodePublicIp": false,
+      "enableUltraSsd": false,
+      "gpuInstanceProfile": null,
+      "gpuProfile": null,
+      "hostGroupId": null,
+      "kubeletConfig": null,
+      "kubeletDiskType": "OS",
+      "linuxOsConfig": null,
+      "maxCount": null,
+      "maxPods": 250,
+      "messageOfTheDay": null,
+      "minCount": null,
+      "mode": "System",
+      "name": "nodepool1",
+      "networkProfile": null,
+      "nodeImageVersion": "AKSUbuntu-2204gen2containerd-202506.03.0",
+      "nodeLabels": null,
+      "nodePublicIpPrefixId": null,
+      "nodeTaints": null,
+      "orchestratorVersion": "1.31",
+      "osDiskSizeGb": 128,
+      "osDiskType": "Managed",
+      "osSku": "Ubuntu",
+      "osType": "Linux",
+      "podSubnetId": null,
+      "powerState": {
+        "code": "Running"
+      },
+      "provisioningState": "Succeeded",
+      "proximityPlacementGroupId": null,
+      "scaleDownMode": "Delete",
+      "scaleSetEvictionPolicy": null,
+      "scaleSetPriority": null,
+      "securityProfile": {
+        "enableSecureBoot": false,
+        "enableVtpm": false
+      },
+      "spotMaxPrice": null,
+      "tags": null,
+      "type": "VirtualMachineScaleSets",
+      "upgradeSettings": {
+        "drainTimeoutInMinutes": null,
+        "maxSurge": "10%",
+        "nodeSoakDurationInMinutes": null
+      },
+      "vmSize": "Standard_B2s",
+      "vnetSubnetId": null,
+      "windowsProfile": null,
+      "workloadRuntime": null
+    }
+  ],
+  "apiServerAccessProfile": null,
+  "autoScalerProfile": null,
+  "autoUpgradeProfile": {
+    "nodeOsUpgradeChannel": "NodeImage",
+    "upgradeChannel": null
+  },
+  "azureMonitorProfile": {
+    "metrics": null
+  },
+  "azurePortalFqdn": "todoapp-ak-aks-cluster-rg-4bbd42-8xquly5b.portal.hcp.eastus.azmk8s.io",
+  "bootstrapProfile": {
+    "artifactSource": "Direct",
+    "containerRegistryId": null
+  },
+  "currentKubernetesVersion": "1.31.9",
+  "disableLocalAccounts": false,
+  "diskEncryptionSetId": null,
+  "dnsPrefix": "todoapp-ak-aks-cluster-rg-4bbd42",
+  "eTag": null,
+  "enablePodSecurityPolicy": null,
+  "enableRbac": true,
+  "extendedLocation": null,
+  "fqdn": "todoapp-ak-aks-cluster-rg-4bbd42-8xquly5b.hcp.eastus.azmk8s.io",
+  "fqdnSubdomain": null,
+  "httpProxyConfig": null,
+  "id": "/subscriptions/4bbd422d-0cc0-45cc-8151-2193eb805c0c/resourcegroups/aks-cluster-rg/providers/Microsoft.ContainerService/managedClusters/todoapp-aks-cluster",
+  "identity": {
+    "delegatedResources": null,
+    "principalId": "9183cba7-5c69-4030-9bb3-35e130791e77",
+    "tenantId": "4068f6f2-f164-42f7-a6f3-f172de2eeb01",
+    "type": "SystemAssigned",
+    "userAssignedIdentities": null
+  },
+  "identityProfile": {
+    "kubeletidentity": {
+      "clientId": "2194f143-b076-4805-9b72-2b616c11b3ca",
+      "objectId": "640ee784-a8cc-46e8-b62b-0b5d5313c793",
+      "resourceId": "/subscriptions/4bbd422d-0cc0-45cc-8151-2193eb805c0c/resourcegroups/MC_aks-cluster-rg_todoapp-aks-cluster_eastus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/todoapp-aks-cluster-agentpool"
+    }
+  },
+  "ingressProfile": null,
+  "kubernetesVersion": "1.31",
+  "linuxProfile": {
+    "adminUsername": "azureuser",
+    "ssh": {
+      "publicKeys": [
+        {
+          "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFbeu5/JgwTfIXW53EkmimhMOcQE/RlTxOxUwS0m0h5GCsKx01pCdcQKCJ6BWmIRenGYS60diJmu13EyYQx3HbcT74XIZMQTTYH6bVtW/gd+C2bs3znUbxn6c0Gr2EviHOdm6joIyqVcoOHKmV/GvBTEEoD88Nx5vskPirm2M3UlOBmljpws3+Ep0E07LcqJOPVI9fJbjGpugIMwsgNBFdLDjWyxGjtxy06sat5I/4eV5LUsj97441U/setuLQQmtk+hvu2z5YgV7tcr/ydcfUhUz5vsIB0gwPcEVnOMRN0WdsOn8KsiZzW4u3rDl90+W9hlCG5A/czb9NFG2GceFF"
+        }
+      ]
+    }
+  },
+  "location": "eastus",
+  "maxAgentPools": 100,
+  "metricsProfile": {
+    "costAnalysis": {
+      "enabled": false
+    }
+  },
+  "name": "todoapp-aks-cluster",
+  "networkProfile": {
+    "advancedNetworking": null,
+    "dnsServiceIp": "10.0.0.10",
+    "ipFamilies": [
+      "IPv4"
+    ],
+    "loadBalancerProfile": {
+      "allocatedOutboundPorts": null,
+      "backendPoolType": "nodeIPConfiguration",
+      "effectiveOutboundIPs": [
+        {
+          "id": "/subscriptions/4bbd422d-0cc0-45cc-8151-2193eb805c0c/resourceGroups/MC_aks-cluster-rg_todoapp-aks-cluster_eastus/providers/Microsoft.Network/publicIPAddresses/6babeefc-92a2-4382-a6ef-4680052b0ae9",
+          "resourceGroup": "MC_aks-cluster-rg_todoapp-aks-cluster_eastus"
+        }
+      ],
+      "enableMultipleStandardLoadBalancers": null,
+      "idleTimeoutInMinutes": null,
+      "managedOutboundIPs": {
+        "count": 1,
+        "countIpv6": null
+      },
+      "outboundIPs": null,
+      "outboundIpPrefixes": null
+    },
+    "loadBalancerSku": "standard",
+    "natGatewayProfile": null,
+    "networkDataplane": "azure",
+    "networkMode": null,
+    "networkPlugin": "azure",
+    "networkPluginMode": "overlay",
+    "networkPolicy": "none",
+    "outboundType": "loadBalancer",
+    "podCidr": "10.244.0.0/16",
+    "podCidrs": [
+      "10.244.0.0/16"
+    ],
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+      "10.0.0.0/16"
+    ]
+  },
+  "nodeResourceGroup": "MC_aks-cluster-rg_todoapp-aks-cluster_eastus",
+  "nodeResourceGroupProfile": null,
+  "oidcIssuerProfile": {
+    "enabled": false,
+    "issuerUrl": null
+  },
+  "podIdentityProfile": null,
+  "powerState": {
+    "code": "Running"
+  },
+  "privateFqdn": null,
+  "privateLinkResources": null,
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "aks-cluster-rg",
+  "resourceUid": "685e75f89a915e00018d3edb",
+  "securityProfile": {
+    "azureKeyVaultKms": null,
+    "customCaTrustCertificates": null,
+    "defender": null,
+    "imageCleaner": null,
+    "workloadIdentity": null
+  },
+  "serviceMeshProfile": null,
+  "servicePrincipalProfile": {
+    "clientId": "msi",
+    "secret": null
+  },
+  "sku": {
+    "name": "Base",
+    "tier": "Free"
+  },
+  "storageProfile": {
+    "blobCsiDriver": null,
+    "diskCsiDriver": {
+      "enabled": true
+    },
+    "fileCsiDriver": {
+      "enabled": true
+    },
+    "snapshotController": {
+      "enabled": true
+    }
+  },
+  "supportPlan": "KubernetesOfficial",
+  "systemData": null,
+  "tags": null,
+  "type": "Microsoft.ContainerService/ManagedClusters",
+  "upgradeSettings": null,
+  "windowsProfile": null,
+  "workloadAutoScalerProfile": {
+    "keda": null,
+    "verticalPodAutoscaler": null
+  }
+}
+
+
+C:\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.9>az aks get-credentials --resource-group aks-cluster-rg --name todoapp-aks-cluster
+Merged "todoapp-aks-cluster" as current context in C:\Users\LENOVO\.kube\config
+O/P
+
+
+C:\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.9>kubectl cluster-info
+
+O/P
+Kubernetes control plane is running at https://todoapp-ak-aks-cluster-rg-4bbd42-8xquly5b.hcp.eastus.azmk8s.io:443
+CoreDNS is running at https://todoapp-ak-aks-cluster-rg-4bbd42-8xquly5b.hcp.eastus.azmk8s.io:443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://todoapp-ak-aks-cluster-rg-4bbd42-8xquly5b.hcp.eastus.azmk8s.io:443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+C:\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.9>kubectl config current-context
+O/P
+todoapp-aks-cluster
+
+C:\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.9>kubectl get nodes
+O/P
+NAME                                STATUS   ROLES    AGE   VERSION
+aks-nodepool1-89015270-vmss000000   Ready    <none>   15m   v1.31.9
+
+C:\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.9>kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   17m
+kube-node-lease   Active   17m
+kube-public       Active   17m
+kube-system       Active   17m
+
+
+
+
+
+# Tag for ACR
+docker tag amitjoshipune/azure-relearn-webapi:v3 amitjoshitodoregistry.azurecr.io/azure-relearn-webapi:v3
+
+# Login & Push
+az acr login --name amitjoshitodoregistry
+docker push amitjoshitodoregistry.azurecr.io/azure-relearn-webapi:v3

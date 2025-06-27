@@ -214,7 +214,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 }
 
 // Default route for simple testing
-app.MapGet("/", () => "Hello from .NET 8 API with Health Checks + App Insights!");
+app.MapGet("/", () => "Hello from .NET 8 API with Health Checks + App Insights and AKS try out!");
 
 // Run the application
 app.Run();

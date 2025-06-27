@@ -1,11 +1,12 @@
 services:	
   azure-relearn-webapi:
-    image: amitjoshipune/azure-relearn-webapi:v1
+    image: amitjoshipune/azure-relearn-webapi:v3
     container_name: azure-relearn-webapi-container
     ports:
-      - "8083:80"
+      - "8083:80"  # HostPort:ContainerPort
     environment:
       - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=Development
     restart: always
 
 #PS D:\Amit\azure-relearn-2025\src\AzureRelearn.WebApi\AzureRelearn.WebApi> docker-compose up
