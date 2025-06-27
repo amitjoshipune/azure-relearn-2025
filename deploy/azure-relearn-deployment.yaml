@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: azure-relearn-api
-        image: amitjoshipune/azure-relearn-webapi:v2
+        image: amitjoshitodoregistry.azurecr.io/azure-relearn-webapi:v3
         imagePullPolicy: Always
         ports:
         - containerPort: 80
